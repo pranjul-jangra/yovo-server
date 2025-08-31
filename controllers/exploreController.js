@@ -243,8 +243,6 @@ export const searchExplorePreview = async (req, res) => {
 // Paginated search results
 export const searchExploreMore = async (req, res) => {
     try {
-        console.log("Request received.");
-        // Verify user
         const accessToken = req.headers?.authorization?.split(" ")?.[1];
         if (!accessToken) return res.status(401).json({ error: "Unauthorized. Token is missing." });
         const decoded = await verifyAccessToken(accessToken);

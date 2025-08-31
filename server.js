@@ -105,6 +105,7 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
 }));
+app.options(/.*/, cors());
 
 // Make the socket accessible in every controller
 app.use((req, res, next) => {
@@ -138,4 +139,4 @@ app.use("/api/keep-alive", keepAliveRouter);
 
 
 // Listen to port =======================================================================================
-server.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+server.listen(PORT, () => console.log(`Server is running...`))

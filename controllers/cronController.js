@@ -12,8 +12,11 @@ export const expireOlderReports = async () => {
             { createdAt: { $lt: cutoff }, expired: false },
             { $set: { expired: true } }
         );
+
+        res.status(200).json({ message: "Success" });
     } catch (err) {
         console.error("Error expiring reports:", err);
+        res.status(500).json({ error: "Server error" });
     }
 }
 
@@ -32,7 +35,9 @@ export const unsuspendJob = async () => {
             { $set: { suspended: false }, $unset: { suspended_until: "" } }
         );
 
+        res.status(200).json({ message: "Success" });
     } catch (err) {
         console.error("Error unsuspending posts/users:", err);
+        res.status(500).json({ error: "Server error" });
     }
 }

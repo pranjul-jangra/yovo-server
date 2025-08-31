@@ -5,39 +5,39 @@ import postsModel from "../models/postsSchema.js";
 
 // Toggle save
 export const toggleSave = async (req, res) => {
-    try {
-        const accessToken = req.headers?.authorization?.split(" ")?.[1];
-        if (!accessToken) return res.status(401).json({ error: "Unauthorized. Token is missing" });
-        const decoded = await verifyAccessToken(accessToken);
-        if (!decoded || !decoded.id) return res.status(401).json({ error: "Unauthorized. Invalid token" });
+  try {
+    const accessToken = req.headers?.authorization?.split(" ")?.[1];
+    if (!accessToken) return res.status(401).json({ error: "Unauthorized. Token is missing" });
+    const decoded = await verifyAccessToken(accessToken);
+    if (!decoded || !decoded.id) return res.status(401).json({ error: "Unauthorized. Invalid token" });
 
-        const userId = mongoose.Types.ObjectId.createFromHexString(decoded.id);
-        let { postId } = req.params;
-        postId = mongoose.Types.ObjectId.createFromHexString(postId);
+    const userId = mongoose.Types.ObjectId.createFromHexString(decoded.id);
+    let { postId } = req.params;
+    postId = mongoose.Types.ObjectId.createFromHexString(postId);
 
-        // check if already saved
-        const existing = await saveModel.findOne({ userId, postId });
+    // check if already saved
+    const existing = await saveModel.findOne({ userId, postId });
 
-        if (existing) {
-            await saveModel.deleteOne({ _id: existing._id });
-            return res.status(200).json({ success: true, saved: false, message: "Post unsaved" });
-        }
-
-        // save
-        await saveModel.create({ userId, postId });
-        res.status(201).json({ success: true, saved: true, message: "Post saved" });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: "Error toggling save" });
+    if (existing) {
+      await saveModel.deleteOne({ _id: existing._id });
+      return res.status(200).json({ success: true, saved: false, message: "Post unsaved" });
     }
+
+    // save
+    await saveModel.create({ userId, postId });
+    res.status(201).json({ success: true, saved: true, message: "Post saved" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error toggling save" });
+  }
 };
 
 // Hide a post
 export const hidePost = async (req, res) => {
   try {
     let { postId } = req.params;
-    if(!postId) return res.status(400).json({ error: "Post is not defined" });
+    if (!postId) return res.status(400).json({ error: "Post is not defined" });
     postId = mongoose.Types.ObjectId.createFromHexString(postId);
 
     // Verify user
@@ -68,7 +68,7 @@ export const hidePost = async (req, res) => {
 export const unhidePost = async (req, res) => {
   try {
     let { postId } = req.params;
-    if(!postId) return res.status(400).json({ error: "Post is not defined" });
+    if (!postId) return res.status(400).json({ error: "Post is not defined" });
     postId = mongoose.Types.ObjectId.createFromHexString(postId);
 
     // Verify user
