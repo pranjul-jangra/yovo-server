@@ -4,7 +4,7 @@ import userModel from "../models/userSchema.js";
 
 
 // Soft delete older reports
-export const expireOlderReports = async () => {
+export const expireOlderReports = async (req, res) => {
     try {
         const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
@@ -21,7 +21,7 @@ export const expireOlderReports = async () => {
 }
 
 // Unsuspend user or posts
-export const unsuspendJob = async () => {
+export const unsuspendJob = async (req, res) => {
     try {
         const now = new Date();
 
