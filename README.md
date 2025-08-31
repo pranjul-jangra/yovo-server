@@ -57,8 +57,7 @@ yovo-backend/
 ├── utils/         # Helper functions
 │
 │── package.json
-│── server.js      # Entry point
-└── serviceAccount.json      # firebase admin file
+└── server.js      # Entry point
 ```
 
 ## Frontend
